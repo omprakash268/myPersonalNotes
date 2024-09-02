@@ -49,28 +49,28 @@ export const Note = () => {
   }, []);
 
   return (
-    <div className="bg-slate-800 text-white w-full h-min-[100vh] flex flex-col items-center p-12">
+    <div className="bg-slate-800 text-white w-full h-min-[100vh] flex flex-col items-center p-8">
       <p className="text-3xl uppercase text-orange-500 font-bold">
         Create your notes now
       </p>
-      <div className="w-full p-8 flex justify-center">
-        <div className="w-[100%] gap-2 flex flex-col justify-center items-center text-black">
+      <div className="w-full mt-4 flex justify-center">
+        <div className="w-full gap-2 flex flex-col justify-center items-center text-black">
           <input
             type="text"
             placeholder="Enter title"
-            className="w-[100%] md:w-[60%] h-10 p-2 border-none outline-none rounded-sm text-sm"
+            className="w-full md:w-[60%] h-10 p-2 border-none outline-none rounded-sm text-sm"
             onChange={handleInputChange}
             name="title"
           />
           <textarea
             name="description"
             id="desContainer"
-            className="w-[100%] md:w-[60%] rounded-sm p-2 text-sm border-none outline-none resize-none"
+            className="w-full md:w-[60%] rounded-sm p-2 text-sm border-none outline-none resize-none"
             rows={5}
             placeholder="Enter description"
             onChange={handleInputChange}
           ></textarea>
-          <div className="w-[100%] md:w-[60%] add-note-layout">
+          <div className="w-full md:w-[60%] add-note-layout">
             <div className="text-lg h-10 text-white flex justify-start items-center">
               Tag :
               <Select
@@ -92,7 +92,7 @@ export const Note = () => {
           </div>
         </div>
       </div>
-      <div className="w-full p-8 responsive-layout-container">
+      <div className="w-full mt-12 responsive-layout-container">
         {myNoteData.map((data) => {
           return <NoteCard data={data} key={data._id} showModal={showModal} />;
         })}

@@ -8,3 +8,18 @@
   gap: 2rem;
   justify-content: center;
 }
+
+/* For WebKit-based browsers (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+  width: 8px; /* Customize the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Customize the background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555555; /* Customize the color of the scrollbar thumb */
+  border-radius: 10px; /* Optional: add rounded corners to the scrollbar thumb */
+  border: 3px solid #f1f1f1; /* Optional: add padding or a border around the scrollbar thumb */
+}

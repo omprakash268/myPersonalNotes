@@ -3,20 +3,27 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaExpand } from "react-icons/fa6";
 import { INoteDetails } from "../../misc/app.interface";
-import { NoteData } from "../../misc/data";
 import { Tooltip } from "antd";
+import axios from "axios";
+import { BASE_URL } from "../../env/env";
+import { PriorityTag } from "../PriorityTag/PriorityTag";
 
 export const NoteCard = ({
   data,
   showModal,
+  getAllNotes,
+  showUpdateModal,
 }: {
   data: INoteDetails;
   showModal: any;
+  getAllNotes: any;
+  showUpdateModal: any;
 }) => {
-  const handleDelete = (id: string) => {
-    const note: any = NoteData.find((data) => data._id == id);
-    if (note) {
-      NoteData.splice(note?._id, 1);
+  const baseUrl = BASE_URL;
+  const handleDelete = async (id: string) => {
+    const res = await axios.delete(`${baseUrl}/note/delete/${id}`);
+    if (res.status == 200) {
+      getAllNotes();
     }
   };
   return (
@@ -25,7 +32,10 @@ export const NoteCard = ({
         {data.title}
         <div className="h-8 flex justify-center items-center">
           <Tooltip placement="top" title="Edit" color="green">
-            <FaRegEdit className="hover:cursor-pointer mr-2 hover:text-green-600" />
+            <FaRegEdit
+              className="hover:cursor-pointer mr-2 hover:text-green-600"
+              onClick={()=>showUpdateModal(data)}
+            />
           </Tooltip>
           <Tooltip placement="top" title="Delete" color="red">
             <RiDeleteBin5Line
@@ -35,25 +45,20 @@ export const NoteCard = ({
           </Tooltip>
         </div>
       </div>
-      <div className="w-full h-full mt-4 overflow-auto">{data.description}</div>
+      <div className="w-full h-[12rem] mt-4 overflow-auto text-justify pr-2">
+        {data.description}
+      </div>
       <div className="w-full h-4 mt-4 flex justify-between items-center">
-        <div
-          className={`${
-            data.tag == "Important"
-              ? "bg-red-500"
-              : data.tag == "Medium"
-              ? "bg-orange-500"
-              : "bg-green-500"
-          } px-2 rounded-lg text-white uppercase text-[0.7rem]`}
-        >
-          {data.tag}
+        <div className="flex justify-start items-center gap-2">
+          <PriorityTag tag={data.tag} />
+          <div className="text-[0.7rem]">
+            {new Date(data.createdAt).toDateString()}
+          </div>
         </div>
-        <Tooltip placement="top" title="Expand" color="blue">
-          <FaExpand
-            className="hover:cursor-pointer hover:text-blue-600"
-            onClick={() => showModal(data)}
-          />
-        </Tooltip>
+        <FaExpand
+          className="hover:cursor-pointer hover:text-blue-600"
+          onClick={() => showModal(data)}
+        />
       </div>
     </div>
   );

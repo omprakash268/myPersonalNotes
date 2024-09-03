@@ -3,4 +3,5 @@ export interface INoteDetails {
   title: string;
   description: string;
   tag: string;
+  createdAt: number;
 }

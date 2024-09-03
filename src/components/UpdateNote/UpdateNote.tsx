@@ -22,6 +22,8 @@ export const UpdateNote = ({
 
   const baseUrl = BASE_URL;
 
+  axios.defaults.withCredentials = true;
+
   const priorityListItems = [
     { value: "Important", label: "Important" },
     { value: "Medium", label: "Medium" },

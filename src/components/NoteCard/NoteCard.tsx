@@ -20,6 +20,7 @@ export const NoteCard = ({
   showUpdateModal: any;
 }) => {
   const baseUrl = BASE_URL;
+  axios.defaults.withCredentials = true;
   const handleDelete = async (id: string) => {
     const res = await axios.delete(`${baseUrl}/note/delete/${id}`);
     if (res.status == 200) {

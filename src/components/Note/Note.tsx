@@ -34,6 +34,8 @@ export const Note = () => {
     tag: "",
     createdAt: Date.now(),
   });
+
+  axios.defaults.withCredentials = true;
   const baseUrl = BASE_URL;
 
   const showModal = (note: INoteDetails) => {

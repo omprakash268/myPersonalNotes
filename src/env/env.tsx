@@ -1,2 +1,2 @@
-// export const BASE_URL = 'http://localhost:8080';
-export const BASE_URL = 'https://my-notes-be.vercel.app';
+export const BASE_URL = 'http://localhost:8080';
+// export const BASE_URL = 'https://my-notes-be.vercel.app';

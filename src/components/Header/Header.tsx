@@ -50,7 +50,7 @@ export const Header = () => {
         <Link to={"/"} className="font-bold text-2xl uppercase text-blue-500">
           My Notes
         </Link>
-        <div className="">
+        <div className="desktop-view">
           Welcome{" "}
           <span className="text-orange-500 uppercase">
             {" "}

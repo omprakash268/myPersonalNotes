@@ -44,7 +44,10 @@ export const Header = () => {
       key: "2",
       label:
         user?.name != "" ? (
-          <div onClick={handleLogout} className="hover:cursor-pointer text-red-500">
+          <div
+            onClick={handleLogout}
+            className="hover:cursor-pointer text-red-500"
+          >
             Logout
           </div>
         ) : (
@@ -78,7 +81,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="w-full h-[5rem] bg-gray-700 flex justify-between items-center px-14 text-white">
+      <div className="w-full h-[5rem] bg-gray-700 flex justify-between items-center px-4 sm:px-14 text-white">
         <Link to={"/"} className="font-bold text-2xl uppercase text-blue-500">
           My Notes
         </Link>
@@ -89,21 +92,6 @@ export const Header = () => {
             {user?.name != "" ? user.name : "User"}
           </span>
         </div>
-        {/* <div className="flex items-center justify-center gap-4 desktop-view">
-          <Link to={"/login"}>Login</Link>
-          <Link to={"/signup"}>Sign Up</Link>
-          {user?.name != "" ? (
-            <div className="flex justify-center items-center gap-4">
-              <div onClick={handleLogout} className="hover:cursor-pointer">
-                Logout
-              </div>
-              <Link to={"/my-notes"}>View Notes</Link>
-            </div>
-          ) : (
-            ""
-          )}
-        </div> */}
-
         <Dropdown menu={{ items }} placement="bottom" arrow>
           <FaUserCircle className="desktop-view text-3xl cursor-pointer" />
         </Dropdown>

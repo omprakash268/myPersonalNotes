@@ -22,14 +22,12 @@ export const SignUp = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("form data", formData);
-    const res = await axios.post(`${baseUrl}/user/add`, formData);
+    await axios.post(`${baseUrl}/user/add`, formData);
     setFormData({
       name: "",
       email: "",
       password: "",
     });
-    console.log("response", res);
   };
 
   const isFormValid = () => {

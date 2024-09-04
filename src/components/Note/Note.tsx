@@ -8,7 +8,7 @@ import "./Note.css";
 import { BASE_URL } from "../../env/env";
 import { PriorityTag } from "../PriorityTag/PriorityTag";
 import { UpdateNote } from "../UpdateNote/UpdateNote";
-import { isUserAuthenticated } from "../../utils/utils";
+import { getUser, isUserAuthenticated } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 
@@ -37,6 +37,7 @@ export const Note = () => {
     tag: "",
     createdAt: Date.now(),
   });
+  const [userData,setUserData]= useState<any>({});
 
   const navigate = useNavigate();
 
@@ -50,7 +51,6 @@ export const Note = () => {
   };
 
   const showUpdateModal = (note: INoteDetails) => {
-    console.log("update data", note);
     setUpdateModalData(note);
     setIsUpdateModalOpen(true);
   };
@@ -82,8 +82,7 @@ export const Note = () => {
   const addNewNote = async (e: any) => {
     e.preventDefault();
     notesFormData.createdAt = Date.now();
-    console.log(notesFormData);
-    await axios.post(`${baseUrl}/note/create`, notesFormData);
+    await axios.post(`${baseUrl}/note/create/${userData._id}`, notesFormData);
     setNotesFormData({
       title: "",
       description: "",
@@ -98,15 +97,20 @@ export const Note = () => {
       navigate("/");
     }
     setIsDataLoading(true);
-    const response = await axios.get(`${baseUrl}/note/all/1`);
+    const user = getUser();
+    if (user) {
+      setUserData(user);
+      const response = await axios.get(`${baseUrl}/note/all/${user._id}`);
 
-    setMyNoteData(
-      response.data.data.sort((a: any, b: any) => {
-        const dateA: any = new Date(a.createdAt);
-        const dateB: any = new Date(b.createdAt);
-        return dateB - dateA;
-      })
-    );
+      setMyNoteData(
+        response.data.data.sort((a: any, b: any) => {
+          const dateA: any = new Date(a.createdAt);
+          const dateB: any = new Date(b.createdAt);
+          return dateB - dateA;
+        })
+      );
+    }
+
     setIsDataLoading(false);
   };
 

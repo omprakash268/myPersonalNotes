@@ -46,7 +46,7 @@ export const Login = () => {
     <>
       <div className="w-full min-h-screen">
         <Header />
-        <div className="w-full">
+        <div className="w-full py-4 min-h-screen bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
           <section>
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -54,7 +54,7 @@ export const Login = () => {
                   <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">
                     Login
                   </h2>
-                  <p className="mt-2 text-sm text-gray-600">
+                  <p className="mt-2 text-sm text-black">
                     Don&#x27;t have an account?{" "}
                     <Link
                       to={"/signup"}
@@ -75,7 +75,7 @@ export const Login = () => {
                         </label>
                         <div className="mt-2">
                           <input
-                            className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="flex h-10 w-full rounded-md border outline-none placeholder:text-gray-800 border-black bg-transparent px-3 py-2 text-sm focus:border-white disabled:cursor-not-allowed disabled:opacity-50"
                             type="email"
                             placeholder="Email"
                             name="email"
@@ -104,7 +104,7 @@ export const Login = () => {
                         </div>
                         <div className="mt-2">
                           <input
-                            className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="flex h-10 w-full rounded-md border outline-none placeholder:text-gray-800 border-black bg-transparent px-3 py-2 text-sm focus:border-white disabled:cursor-not-allowed disabled:opacity-50"
                             type="password"
                             placeholder="Password"
                             name="password"

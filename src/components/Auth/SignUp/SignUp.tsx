@@ -4,6 +4,8 @@ import { Header } from "../../Header/Header";
 import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../env/env";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -18,16 +20,40 @@ export const SignUp = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   const baseUrl = BASE_URL;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await axios.post(`${baseUrl}/user/add`, formData);
+    toast.promise(
+      signUpApi(),
+      {
+        pending: "Saving data ...",
+        success: "Sign Up successful",
+        error: "Something went wrong",
+      },
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      }
+    );
+
     setFormData({
       name: "",
       email: "",
       password: "",
     });
+  };
+
+  const signUpApi = async () => {
+    return await axios.post(`${baseUrl}/user/add`, formData);
   };
 
   const isFormValid = () => {
@@ -38,7 +64,7 @@ export const SignUp = () => {
     <>
       <div className="w-full min-h-screen">
         <Header />
-        <div className="w-full">
+        <div className="w-full min-h-screen py-4 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
           <section>
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -46,7 +72,7 @@ export const SignUp = () => {
                   <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">
                     Sign up
                   </h2>
-                  <p className="mt-2 text-base text-gray-600">
+                  <p className="mt-2 text-base text-black">
                     Already have an account?{" "}
                     <Link
                       to={"/login"}
@@ -67,7 +93,7 @@ export const SignUp = () => {
                         </label>
                         <div className="mt-2">
                           <input
-                            className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="flex h-10 w-full rounded-md border outline-none placeholder:text-gray-800 border-black bg-transparent px-3 py-2 text-sm focus:border-white disabled:cursor-not-allowed disabled:opacity-50"
                             type="text"
                             placeholder="Enter your name"
                             name="name"
@@ -86,7 +112,7 @@ export const SignUp = () => {
                         </label>
                         <div className="mt-2">
                           <input
-                            className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="flex h-10 w-full rounded-md border outline-none placeholder:text-gray-800 border-black bg-transparent px-3 py-2 text-sm focus:border-white disabled:cursor-not-allowed disabled:opacity-50"
                             type="email"
                             placeholder="Email"
                             id="email"
@@ -108,7 +134,7 @@ export const SignUp = () => {
                         </div>
                         <div className="mt-2">
                           <input
-                            className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="flex h-10 w-full rounded-md border outline-none placeholder:text-gray-800 border-black bg-transparent px-3 py-2 text-sm focus:border-white disabled:cursor-not-allowed disabled:opacity-50"
                             type="password"
                             placeholder="Password"
                             id="password"
@@ -143,6 +169,8 @@ export const SignUp = () => {
           </section>
         </div>
       </div>
+
+      <ToastContainer limit={1} />
     </>
   );
 };

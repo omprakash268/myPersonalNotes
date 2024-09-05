@@ -82,9 +82,17 @@ export const Header = () => {
   return (
     <>
       <div className="w-full h-[5rem] header-transparent flex justify-between items-center px-4 sm:px-12 text-white">
-        <Link to={"/"} className="font-extrabold text-3xl uppercase text-black">
-          My Notes
-        </Link>
+        <div className="flex flex-col justify-center items-start">
+          <Link
+            to={"/"}
+            className="font-extrabold text-3xl uppercase text-black"
+          >
+            My Notes
+          </Link>
+          <div className="text-[0.6rem] text-black">
+            Created by : Om Prakash
+          </div>
+        </div>
         <div className="desktop-view">
           Welcome{" - "}
           <span className="text-orange-500 uppercase font-bold italic">
@@ -110,9 +118,17 @@ export const Header = () => {
         className=""
       >
         <div className="w-full flex flex-col">
-          <Link to={"/"} className="font-bold text-2xl uppercase text-blue-500">
-            My Notes
-          </Link>
+          <div className="flex flex-col justify-center items-start">
+            <Link
+              to={"/"}
+              className="font-extrabold text-3xl uppercase text-black"
+            >
+              My Notes
+            </Link>
+            <div className="text-[0.6rem] text-black">
+              Created by : Om Prakash
+            </div>
+          </div>
           <div className="my-8 font-bold">
             Welcome{" "}
             <span className="text-orange-500 font-semibold uppercase">

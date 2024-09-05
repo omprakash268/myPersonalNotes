@@ -95,7 +95,7 @@ export const Header = () => {
         </div>
         <div className="desktop-view">
           Welcome{" - "}
-          <span className="text-orange-500 uppercase font-bold italic">
+          <span className="text-yellow-500 uppercase font-bold italic">
             {" "}
             {user?.name != "" ? user.name : "User"}
           </span>
@@ -131,7 +131,7 @@ export const Header = () => {
           </div>
           <div className="my-8 font-bold">
             Welcome{" "}
-            <span className="text-orange-500 font-semibold uppercase">
+            <span className="text-yellow-500 font-semibold uppercase">
               {" "}
               {user?.name != "" ? user.name : "User"}
             </span>

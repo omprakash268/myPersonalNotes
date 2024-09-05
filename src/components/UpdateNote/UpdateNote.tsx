@@ -64,12 +64,12 @@ export const UpdateNote = ({
         onSubmit={updateNote}
         className="w-full flex flex-col justify-center items-center"
       >
-        <div className="w-full gap-2 flex flex-col justify-center items-center text-black border-2 border-blue-500 p-2 rounded-lg">
+        <div className="w-full gap-2 flex flex-col justify-center items-center text-black border-[1px] border-gray-300 p-2 rounded-lg">
           <div className="w-full text-left font-semibold">Title</div>
           <input
             type="text"
             placeholder="Enter title"
-            className="w-full h-10 p-2 border-[1px] border-black outline-none rounded-sm text-sm mb-4"
+            className="w-full h-10 p-2 border-[1px] border-gray-400 outline-none rounded-sm text-sm mb-4"
             onChange={handleInputChange}
             name="title"
             value={notesFormData.title}
@@ -80,7 +80,7 @@ export const UpdateNote = ({
           <textarea
             name="description"
             id="desContainer"
-            className="w-full rounded-sm p-2 text-sm border-[1px] border-black outline-none resize-none mb-4"
+            className="w-full rounded-sm p-2 text-sm border-[1px] border-gray-400 outline-none resize-none mb-4"
             rows={10}
             placeholder="Enter description"
             value={notesFormData.description}

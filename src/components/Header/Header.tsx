@@ -81,8 +81,8 @@ export const Header = () => {
 
   return (
     <>
-      <div className="w-full h-[5rem] bg-gray-700 flex justify-between items-center px-4 sm:px-14 text-white">
-        <Link to={"/"} className="font-bold text-2xl uppercase text-blue-500">
+      <div className="w-full h-[5rem] header-transparent flex justify-between items-center px-4 sm:px-12 text-white">
+        <Link to={"/"} className="font-extrabold text-3xl uppercase text-black">
           My Notes
         </Link>
         <div className="desktop-view">

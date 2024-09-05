@@ -46,47 +46,46 @@ export const Home = () => {
   }, []);
   return (
     <>
-      <div className="w-full min-h-screen bg-slate-800">
+      <div
+        className="w-full min-h-screen flex flex-col justify-start items-center font-bold bg-gradient-to-r from-indigo-500 from-20% via-sky-600 via-100%"
+        style={divStyle}
+      >
         <Header />
-        <div
-          className="w-full flex flex-col justify-start pt-36 items-center min-h-screen text-xl font-bold"
-          style={divStyle}
-        >
-          {user?.name == "" ? (
-            <div className="text-white">
-              {" "}
-              <Link
-                to={"/login"}
-                className="text-orange-500 hover:underline hover:text-blue-500"
-              >
-                Login
-              </Link>{" "}
-              or{" "}
-              <Link
-                to={"/signup"}
-                className="hover:underline hover:text-blue-500 text-orange-500"
-              >
-                Create New Account
-              </Link>
-            </div>
-          ) : (
-            <div className="flex flex-col justify-center items-center gap-4">
-              <p className="text-xl font-bold ">
-                <span className="text-yellow-500">Hi , </span>{" "}
-                <span className="text-orange-500">{user.name}</span>
-              </p>
-              <Link
-                to={"/my-notes"}
-                className="text-sm text-white hover:text-blue-500 hover:outline-blue-500 outline-2 outline-dotted outline-green-500 p-4 px-6 rounded-lg"
-              >
-                View My Notes
-              </Link>
-            </div>
-          )}
-
-          <div className="mt-4 w-full flex justify-center items-center text-[5rem] text-white time-gradiant">
-            {formatTime(time)}
+        <div className="mt-36"></div>
+        {user?.name == "" ? (
+          <div className="text-white">
+            {" "}
+            <Link
+              to={"/login"}
+              className="text-orange-500 hover:underline hover:text-blue-500"
+            >
+              Login
+            </Link>{" "}
+            or{" "}
+            <Link
+              to={"/signup"}
+              className="hover:underline hover:text-blue-500 text-orange-500"
+            >
+              Create New Account
+            </Link>
           </div>
+        ) : (
+          <div className="flex flex-col justify-center items-center gap-4">
+            <p className="text-xl font-bold ">
+              <span className="text-yellow-500">Hi , </span>{" "}
+              <span className="text-orange-500">{user.name}</span>
+            </p>
+            <Link
+              to={"/my-notes"}
+              className="text-sm text-white hover:text-blue-500 hover:outline-blue-500 outline-2 outline-dotted outline-green-500 p-4 px-6 rounded-lg"
+            >
+              View My Notes
+            </Link>
+          </div>
+        )}
+
+        <div className="mt-4 w-[auto] timer-transparent p-4 flex justify-center items-center text-[5rem]  time-gradiant">
+          {formatTime(time)}
         </div>
       </div>
     </>

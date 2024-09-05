@@ -4,3 +4,14 @@
   gap: 1rem;
   justify-content: center;
 }
+
+.add-note-btn-transparent {
+  text-align: center;
+  background: rgba(212, 214, 214, 0.1); /* Light transparent white */
+  backdrop-filter: blur(60px); /* Blur the background */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Border for the glass effect */
+  color: #fff;
+}

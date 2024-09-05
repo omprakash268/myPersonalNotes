@@ -77,7 +77,7 @@ export const Home = () => {
             </p>
             <Link
               to={"/my-notes"}
-              className="text-sm text-white hover:text-blue-500 hover:outline-blue-500 outline-2 outline-dotted outline-green-500 p-4 px-6 rounded-lg"
+              className="text-sm text-white hover:text-blue-500 hover:outline-blue-500 outline-2 outline-dotted outline-green-500 py-3 px-6 rounded-lg"
             >
               View My Notes
             </Link>

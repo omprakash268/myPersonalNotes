@@ -120,7 +120,7 @@ export const Note = () => {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-indigo-500 from-20% via-sky-600 via-100% text-white w-full min-h-screen flex flex-col items-center">
+      <div className="bg-gradient-to-r from-indigo-500 from-20% via-sky-600 via-100% w-full min-h-screen flex flex-col items-center">
         <Header />
         <div className="w-full h-full flex flex-col items-center p-8">
           <p className="text-3xl uppercase text-yellow-500 font-bold">
@@ -135,7 +135,7 @@ export const Note = () => {
                 <input
                   type="text"
                   placeholder="Enter title"
-                  className="w-full h-10 p-2 border-none outline-none rounded-sm text-sm"
+                  className="w-full h-10 p-2 border-none outline-none rounded-sm text-sm text-black"
                   onChange={handleInputChange}
                   name="title"
                   value={notesFormData.title}
@@ -143,7 +143,7 @@ export const Note = () => {
                 <textarea
                   name="description"
                   id="desContainer"
-                  className="w-full rounded-sm p-2 text-sm border-none outline-none resize-none"
+                  className="w-full rounded-sm p-2 text-sm border-none outline-none resize-none text-black"
                   rows={5}
                   placeholder="Enter description"
                   value={notesFormData.description}

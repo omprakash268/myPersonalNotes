@@ -38,7 +38,6 @@ export const Header = () => {
       });
 
     localStorage.removeItem("user");
-    checkUserAuthentication();
     setOpen(false);
     navigate("/");
   };
@@ -78,7 +77,7 @@ export const Header = () => {
     if (user) {
       setUser(JSON.parse(user));
     } else {
-      const unsubscribe = onAuthStateChanged(auth, (result) => {
+      onAuthStateChanged(auth, (result) => {
         if (result) {
           const { email, displayName } = result;
           setUser({
@@ -94,8 +93,6 @@ export const Header = () => {
           });
         }
       });
-
-      unsubscribe();
     }
   };
 

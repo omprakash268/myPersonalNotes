@@ -47,8 +47,6 @@ export const Login = () => {
   const googleUserSignUpApi = async (userData: any) => {
     try {
       const res = await axios.post(`${baseUrl}/user/add`, userData);
-      console.log("user id login", res.data.data);
-
       localStorage.setItem(
         "user",
         JSON.stringify({

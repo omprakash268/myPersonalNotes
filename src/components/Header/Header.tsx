@@ -80,7 +80,6 @@ export const Header = () => {
     } else {
       const unsubscribe = onAuthStateChanged(auth, (result) => {
         if (result) {
-          console.log("already data exist", result);
           const { email, displayName } = result;
           setUser({
             _id: "",

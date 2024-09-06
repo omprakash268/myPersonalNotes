@@ -56,7 +56,6 @@ export const SignUp = () => {
   };
 
   const signUpApi = async () => {
-    console.log("Form data ", formData);
     return await axios.post(`${baseUrl}/user/add`, formData);
   };
 

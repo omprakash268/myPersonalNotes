@@ -6,6 +6,8 @@ import { IoMenu } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../Auth/Firebase/firebaseConfig";
 
 export const Header = () => {
   const [user, setUser] = useState({
@@ -15,6 +17,7 @@ export const Header = () => {
   });
   const [open, setOpen] = useState(false);
   const placement = "left";
+  const navigate = useNavigate();
 
   const showDrawer = () => {
     setOpen(true);
@@ -25,8 +28,18 @@ export const Header = () => {
   };
 
   const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+
     localStorage.removeItem("user");
     checkUserAuthentication();
+    setOpen(false);
     navigate("/");
   };
 
@@ -60,18 +73,30 @@ export const Header = () => {
     },
   ];
 
-  const navigate = useNavigate();
-
   const checkUserAuthentication = () => {
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
     } else {
-      setUser({
-        _id: "",
-        name: "",
-        email: "",
+      const unsubscribe = onAuthStateChanged(auth, (result) => {
+        if (result) {
+          console.log("already data exist", result);
+          const { email, displayName } = result;
+          setUser({
+            _id: "",
+            name: displayName ?? "",
+            email: email ?? "",
+          });
+        } else {
+          setUser({
+            _id: "",
+            name: "",
+            email: "",
+          });
+        }
       });
+
+      unsubscribe();
     }
   };
 
@@ -121,6 +146,7 @@ export const Header = () => {
           <div className="flex flex-col justify-center items-start">
             <Link
               to={"/"}
+              onClick={() => setOpen(false)}
               className="font-extrabold text-3xl uppercase text-black"
             >
               My Notes
@@ -137,18 +163,24 @@ export const Header = () => {
             </span>
           </div>
           <div className="flex flex-col items-start justify-center gap-4">
-            <Link to={"/login"}>Login</Link>
-            <Link to={"/signup"}>Sign Up</Link>
             {user?.name != "" ? (
               <div className="flex flex-col justify-center items-start gap-4">
-                <a onClick={handleLogout} className="hover:cursor-pointer">
+                <a
+                  onClick={handleLogout}
+                  className="hover:cursor-pointer text-red-500"
+                >
                   Logout
                 </a>
                 <Link to={"/my-notes"}>View Notes</Link>
               </div>
             ) : (
-              ""
+              <Link to={"/login"} onClick={() => setOpen(false)}>
+                Login
+              </Link>
             )}
+            <Link to={"/signup"} onClick={() => setOpen(false)}>
+              Sign Up
+            </Link>
           </div>
         </div>
       </Drawer>

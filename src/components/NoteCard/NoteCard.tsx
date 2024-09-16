@@ -44,7 +44,7 @@ export const NoteCard = ({
           </Tooltip>
         </div>
       </div>
-      <div className="w-full h-[12rem] mt-4 overflow-auto text-justify pr-2">
+      <div className="w-full h-[10rem] mt-4 overflow-auto text-justify pr-2">
         {data.description}
       </div>
       <div className="w-full h-4 mt-4 flex justify-between items-center">

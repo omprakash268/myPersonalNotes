@@ -10,7 +10,6 @@
 }
 
 .time-gradiant {
-  height: 7rem;
   background: -webkit-linear-gradient(#3ba2fd, #70ff5d, #ffc550);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

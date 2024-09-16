@@ -84,7 +84,7 @@ export const Home = () => {
           </div>
         )}
 
-        <div className="mt-4 w-[auto] timer-transparent p-4 flex justify-center items-center text-[5rem]  time-gradiant">
+        <div className="mt-4 w-[auto] timer-transparent p-2 sm:p-4 flex justify-center items-center text-[3rem] sm:text-[5rem]  time-gradiant h-5rem sm:h-[7rem]">
           {formatTime(time)}
         </div>
       </div>

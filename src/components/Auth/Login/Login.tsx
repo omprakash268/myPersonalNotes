@@ -7,12 +7,15 @@ import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
+import { FidgetSpinner } from "react-loader-spinner";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ export const Login = () => {
   const baseUrl = BASE_URL;
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await axios.post(`${baseUrl}/user/login`, formData);
       setFormData({
@@ -33,9 +37,11 @@ export const Login = () => {
         password: "",
       });
       localStorage.setItem("user", JSON.stringify(res.data.data));
+      setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
 
@@ -54,15 +60,17 @@ export const Login = () => {
           _id: res.data.data,
         })
       );
-
+      setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
       console.log(err);
       localStorage.removeItem("user");
+      setIsLoading(false);
     }
   };
 
   const signInWithGoogle = () => {
+    setIsLoading(true);
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -76,6 +84,7 @@ export const Login = () => {
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -189,6 +198,20 @@ export const Login = () => {
           </div>
         </section>
       </div>
+      {isLoading ? (
+        <div className="absolute top-0 left-0 bg-black opacity-70 flex justify-center items-center h-screen w-screen">
+          <FidgetSpinner
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="fidget-spinner-loading"
+            wrapperStyle={{}}
+            wrapperClass="fidget-spinner-wrapper"
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 };

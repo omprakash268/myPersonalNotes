@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Header } from "../Header/Header";
 import { Link } from "react-router-dom";
 import bgImg from "../../assets/images/bg-img.jpg";
@@ -11,6 +11,8 @@ export const Home = () => {
     name: "",
     email: "",
   });
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const containerRef = useRef(null);
 
   const [time, setTime] = useState(new Date());
 
@@ -29,26 +31,49 @@ export const Home = () => {
   };
 
   const divStyle = {
-    backgroundImage: `url(${bgImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     width: "100%",
     height: "500px",
   };
 
+  const backgroundImageStyle = isVisible
+    ? { backgroundImage: isVisible ? `url(${bgImg})` : "" }
+    : "";
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(new Date());
     }, 1000);
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Stop observing once visible
+        }
+      });
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+
+      // Cleanup interval on component unmount
+      clearInterval(intervalId);
+    };
   }, []);
   return (
     <>
       <div
+        ref={containerRef}
         className="w-full min-h-screen flex flex-col justify-start items-center font-bold bg-gradient-to-r from-indigo-500 from-20% via-sky-600 via-100%"
-        style={divStyle}
+        style={{ ...divStyle, ...backgroundImageStyle }}
       >
         <Header />
         <div className="mt-36"></div>

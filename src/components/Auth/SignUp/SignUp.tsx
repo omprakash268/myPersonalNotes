@@ -26,10 +26,9 @@ export const SignUp = () => {
 
   const baseUrl = BASE_URL;
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  const toasterMethod = (func: any) => {
     toast.promise(
-      signUpApi(),
+      func,
       {
         pending: "Saving data ...",
         success: "Sign Up successful",
@@ -47,6 +46,11 @@ export const SignUp = () => {
         transition: Bounce,
       }
     );
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    toasterMethod(signUpApi);
 
     setFormData({
       name: "",
@@ -75,11 +79,13 @@ export const SignUp = () => {
         // The signed-in user info.
         const { displayName, email } = result.user;
 
-        googleUserSignUpApi({
-          name: displayName ?? "test",
-          email: email ?? "test@gmail.com",
-          password: uuidv4(),
-        });
+        toasterMethod(
+          googleUserSignUpApi({
+            name: displayName ?? "test",
+            email: email ?? "test@gmail.com",
+            password: uuidv4(),
+          })
+        );
       })
       .catch((error) => {
         console.log(error);

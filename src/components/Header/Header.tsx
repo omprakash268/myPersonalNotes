@@ -167,7 +167,7 @@ export const Header = () => {
                 >
                   Logout
                 </a>
-                <Link to={"/my-notes"}>View Notes</Link>
+                <Link to={"/my-notes"} onClick={() => setOpen(false)}>View Notes</Link>
               </div>
             ) : (
               <Link to={"/login"} onClick={() => setOpen(false)}>

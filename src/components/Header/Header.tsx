@@ -71,8 +71,6 @@ export const Header = () => {
     },
   ];
 
-  console.log("logged in user data", userData);
-
   return (
     <>
       <div className="w-full h-[5rem] header-transparent flex justify-between items-center px-4 sm:px-12 text-white">

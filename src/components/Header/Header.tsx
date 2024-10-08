@@ -47,7 +47,10 @@ export const Header = () => {
     {
       key: "1",
       label: userData ? (
-        <Link to={"/my-notes"}>View Notes</Link>
+        <>
+          <Link to={"/"}>Home</Link>
+          <Link to={"/my-notes"}>View Notes</Link>
+        </>
       ) : (
         <Link to={"/"}>Home</Link>
       ),

@@ -8,9 +8,9 @@ import "./Note.css";
 import { BASE_URL } from "../../env/env";
 import { PriorityTag } from "../PriorityTag/PriorityTag";
 import { UpdateNote } from "../UpdateNote/UpdateNote";
-import { getUser, isUserAuthenticated } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
+import { useSelector } from "react-redux";
 
 export const Note = () => {
   const [myNoteData, setMyNoteData] = useState<INoteDetails[]>([]);
@@ -37,7 +37,8 @@ export const Note = () => {
     tag: "",
     createdAt: Date.now(),
   });
-  const [userData, setUserData] = useState<any>({});
+
+  const userData: any = useSelector((state: any) => state);
 
   const navigate = useNavigate();
 
@@ -93,14 +94,12 @@ export const Note = () => {
   };
 
   const getAllNotes = async () => {
-    if (!isUserAuthenticated()) {
+    if (!userData) {
       navigate("/");
     }
     setIsDataLoading(true);
-    const user = getUser();
-    if (user) {
-      setUserData(user);
-      const response = await axios.get(`${baseUrl}/note/all/${user._id}`);
+    if (userData) {
+      const response = await axios.get(`${baseUrl}/note/all/${userData._id}`);
 
       setMyNoteData(
         response.data.data.sort((a: any, b: any) => {
@@ -201,7 +200,7 @@ export const Note = () => {
             onCancel={handleCancel}
             centered
             footer={null}
-            title={'My Note'}
+            title={"My Note"}
           >
             <div className="max-h-[30rem] pr-4 text-justify my-6 overflow-auto">
               <p className="text-lg font-semibold my-4"> {modalData?.title} </p>
@@ -223,7 +222,7 @@ export const Note = () => {
             onCancel={handleCancel}
             centered
             footer={null}
-            title={'Update Note'}
+            title={"Update Note"}
           >
             <div className="max-h-[35rem] mt-8 text-justify my-6 overflow-auto">
               <UpdateNote

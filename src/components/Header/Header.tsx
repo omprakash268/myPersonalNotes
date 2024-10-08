@@ -143,13 +143,15 @@ export const Header = () => {
                 </Link>
               </div>
             ) : (
-              <Link to={"/login"} onClick={() => setOpen(false)}>
-                Login
-              </Link>
+              <>
+                <Link to={"/login"} onClick={() => setOpen(false)}>
+                  Login
+                </Link>
+                <Link to={"/signup"} onClick={() => setOpen(false)}>
+                  Sign Up
+                </Link>
+              </>
             )}
-            <Link to={"/signup"} onClick={() => setOpen(false)}>
-              Sign Up
-            </Link>
           </div>
         </div>
       </Drawer>

@@ -2,7 +2,7 @@
 
 import { IReduxAction } from "../../misc/app.interface";
 
-const initialState: any = {};
+const initialState: any = undefined;
 
 export const userReducer = (state = initialState, action: IReduxAction) => {
   switch (action?.type) {

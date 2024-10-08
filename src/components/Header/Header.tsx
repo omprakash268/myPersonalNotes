@@ -45,15 +45,12 @@ export const Header = () => {
 
   const items: MenuProps["items"] = [
     {
+      key: "0",
+      label: <Link to={"/"}>Home</Link>,
+    },
+    userData && {
       key: "1",
-      label: userData ? (
-        <>
-          <Link to={"/"}>Home</Link>
-          <Link to={"/my-notes"}>View Notes</Link>
-        </>
-      ) : (
-        <Link to={"/"}>Home</Link>
-      ),
+      label: <Link to={"/my-notes"}>View Notes</Link>,
     },
     {
       key: "2",
@@ -68,11 +65,11 @@ export const Header = () => {
         <Link to={"/login"}>Login</Link>
       ),
     },
-    {
+    !userData && {
       key: "3",
-      label: userData ? <></> : <Link to={"/signup"}>Sign Up</Link>,
+      label: <Link to={"/signup"}>Sign Up</Link>,
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <>

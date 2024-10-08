@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import { Drawer } from "antd";
@@ -6,18 +7,17 @@ import { IoMenu } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../Auth/Firebase/firebaseConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUserDetails } from "../../redux/actions/userAction";
 
 export const Header = () => {
-  const [user, setUser] = useState({
-    _id: "",
-    name: "",
-    email: "",
-  });
   const [open, setOpen] = useState(false);
   const placement = "left";
   const navigate = useNavigate();
+  const userData = useSelector((state: any) => state);
+  const dispatch = useDispatch();
 
   const showDrawer = () => {
     setOpen(true);
@@ -38,6 +38,7 @@ export const Header = () => {
       });
 
     localStorage.removeItem("user");
+    dispatch(logoutUserDetails());
     setOpen(false);
     navigate("/");
   };
@@ -45,60 +46,32 @@ export const Header = () => {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label:
-        user?.name != "" ? (
-          <Link to={"/my-notes"}>View Notes</Link>
-        ) : (
-          <Link to={"/"}>Home</Link>
-        ),
+      label: userData ? (
+        <Link to={"/my-notes"}>View Notes</Link>
+      ) : (
+        <Link to={"/"}>Home</Link>
+      ),
     },
     {
       key: "2",
-      label:
-        user?.name != "" ? (
-          <div
-            onClick={handleLogout}
-            className="hover:cursor-pointer text-red-500"
-          >
-            Logout
-          </div>
-        ) : (
-          <Link to={"/login"}>Login</Link>
-        ),
+      label: userData ? (
+        <div
+          onClick={handleLogout}
+          className="hover:cursor-pointer text-red-500"
+        >
+          Logout
+        </div>
+      ) : (
+        <Link to={"/login"}>Login</Link>
+      ),
     },
     {
       key: "3",
-      label: <Link to={"/signup"}>Sign Up</Link>,
+      label: userData ? <></> : <Link to={"/signup"}>Sign Up</Link>,
     },
   ];
 
-  const checkUserAuthentication = () => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
-    } else {
-      onAuthStateChanged(auth, (result) => {
-        if (result) {
-          const { email, displayName } = result;
-          setUser({
-            _id: "",
-            name: displayName ?? "",
-            email: email ?? "",
-          });
-        } else {
-          setUser({
-            _id: "",
-            name: "",
-            email: "",
-          });
-        }
-      });
-    }
-  };
-
-  useEffect(() => {
-    checkUserAuthentication();
-  }, []);
+  console.log("logged in user data", userData);
 
   return (
     <>
@@ -115,10 +88,10 @@ export const Header = () => {
           </div>
         </div>
         <div className="desktop-view">
-          Welcome{" - "}
+          Welcome
           <span className="text-yellow-500 uppercase font-bold italic">
             {" "}
-            {user?.name != "" ? user.name : "User"}
+            {userData && userData?.name}
           </span>
         </div>
         <Dropdown menu={{ items }} placement="bottom" arrow>
@@ -152,14 +125,14 @@ export const Header = () => {
             </div>
           </div>
           <div className="my-8 font-bold">
-            Welcome{" "}
+            Welcome
             <span className="text-yellow-500 font-semibold uppercase">
               {" "}
-              {user?.name != "" ? user.name : "User"}
+              {userData && userData?.name}
             </span>
           </div>
           <div className="flex flex-col items-start justify-center gap-4">
-            {user?.name != "" ? (
+            {userData ? (
               <div className="flex flex-col justify-center items-start gap-4">
                 <a
                   onClick={handleLogout}
@@ -167,7 +140,9 @@ export const Header = () => {
                 >
                   Logout
                 </a>
-                <Link to={"/my-notes"} onClick={() => setOpen(false)}>View Notes</Link>
+                <Link to={"/my-notes"} onClick={() => setOpen(false)}>
+                  View Notes
+                </Link>
               </div>
             ) : (
               <Link to={"/login"} onClick={() => setOpen(false)}>

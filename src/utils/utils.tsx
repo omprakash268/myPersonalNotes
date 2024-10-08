@@ -1,16 +1,10 @@
-export const isUserAuthenticated = () => {
-  const user = localStorage.getItem("user");
-  if (user) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-export const getUser = () => {
-  const user = localStorage.getItem("user");
-  if (user) {
+export const getUserStateFromLocalStorage = () => {
+  try {
+    const user = localStorage.getItem("user");
+    if (user === null) return undefined;
     return JSON.parse(user);
+  } catch (e) {
+    console.log("Unable to fetch data from local storage", e);
+    return undefined;
   }
-  return null;
 };

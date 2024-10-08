@@ -8,6 +8,8 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
 import { FidgetSpinner } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
+import { loginUserDetails, logoutUserDetails } from "../../../redux/actions/userAction";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +21,10 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
+  const baseUrl = BASE_URL;
+
+  const dispatch = useDispatch();
+
   const handleInputChange = (e: any) => {
     setFormData({
       ...formData,
@@ -26,7 +32,6 @@ export const Login = () => {
     });
   };
 
-  const baseUrl = BASE_URL;
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
@@ -36,7 +41,8 @@ export const Login = () => {
         email: "",
         password: "",
       });
-      localStorage.setItem("user", JSON.stringify(res.data.data));
+      localStorage.setItem("user", JSON.stringify(res?.data?.data));
+      dispatch(loginUserDetails(res?.data?.data));
       setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
@@ -53,17 +59,24 @@ export const Login = () => {
   const googleUserSignUpApi = async (userData: any) => {
     try {
       const res = await axios.post(`${baseUrl}/user/add`, userData);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          ...userData,
-          _id: res.data.data,
-        })
-      );
+
+      // res.data.data return id of logged in user
+      const userDetails: any = {
+        ...userData,
+        _id: res.data.data,
+      };
+
+      // save to local storage
+      localStorage.setItem("user", JSON.stringify(userDetails));
+
+      // save to redux store
+      dispatch(loginUserDetails(userDetails));
+
       setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
       console.log(err);
+      dispatch(logoutUserDetails());
       localStorage.removeItem("user");
       setIsLoading(false);
     }

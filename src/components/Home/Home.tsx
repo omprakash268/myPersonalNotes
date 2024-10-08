@@ -1,27 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../Header/Header";
 import { Link } from "react-router-dom";
 import bgImg from "../../assets/images/bg-img.jpg";
 import "./Home.css";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
-  const [user, setUser] = useState({
-    _id: "",
-    name: "",
-    email: "",
-  });
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const containerRef = useRef(null);
-
   const [time, setTime] = useState(new Date());
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-  }, []);
+  const userData: any = useSelector((state: any) => state);
 
   const formatTime = (date: Date) => {
     const hours = String(date.getHours()).padStart(2, "0");
@@ -37,33 +25,14 @@ export const Home = () => {
     height: "500px",
   };
 
-  const backgroundImageStyle = isVisible
-    ? { backgroundImage: isVisible ? `url(${bgImg})` : "" }
-    : "";
+  const backgroundImageStyle = { backgroundImage: `url(${bgImg})` };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(new Date());
     }, 1000);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect(); // Stop observing once visible
-        }
-      });
-    });
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-
       // Cleanup interval on component unmount
       clearInterval(intervalId);
     };
@@ -71,13 +40,12 @@ export const Home = () => {
   return (
     <>
       <div
-        ref={containerRef}
         className="w-full min-h-screen flex flex-col justify-start items-center font-bold bg-gradient-to-r from-indigo-500 from-20% via-sky-600 via-100%"
         style={{ ...divStyle, ...backgroundImageStyle }}
       >
         <Header />
         <div className="mt-36"></div>
-        {user?.name == "" ? (
+        {!userData ? (
           <div className="text-white">
             {" "}
             <Link
@@ -98,7 +66,9 @@ export const Home = () => {
           <div className="flex flex-col justify-center items-center gap-4">
             <p className="text-xl font-bold ">
               <span className="text-yellow-500">Hi , </span>{" "}
-              <span className="text-orange-500">{user.name}</span>
+              <span className="text-orange-500">
+                {userData && userData.name}
+              </span>
             </p>
             <Link
               to={"/my-notes"}

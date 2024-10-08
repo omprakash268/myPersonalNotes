@@ -141,6 +141,7 @@ export const Header = () => {
                 <Link to={"/my-notes"} onClick={() => setOpen(false)}>
                   View Notes
                 </Link>
+                <Link to={"/"}>Home</Link>
               </div>
             ) : (
               <>

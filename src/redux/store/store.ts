@@ -7,11 +7,10 @@ export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
   },
-  preloadedState: { user: { user: loadFromLocalStorage() } },
+  preloadedState: { user: loadFromLocalStorage() },
 });
 
 // Subscribe to store updates and save the state to localStorage
 store.subscribe(() => {
-  console.log("change detected", store.getState().user.user);
-  saveToLocalStorage(store.getState().user.user);
+  saveToLocalStorage(store.getState().user);
 });

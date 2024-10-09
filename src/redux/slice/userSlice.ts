@@ -2,16 +2,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadFromLocalStorage } from "../../utils/utils";
 
-
 export const userSlice = createSlice({
   name: "user",
-  initialState: { user: loadFromLocalStorage() || undefined },
+  initialState: loadFromLocalStorage() || null,
   reducers: {
-    login: (state, action) => {
-      state.user = { ...action.payload };
+    login: (_, action) => {
+      return { ...action.payload };
     },
-    logout: (state) => {
-      state.user = undefined;
+    logout: () => {
+      return null;
     },
   },
 });
@@ -23,4 +22,4 @@ export const { login, logout } = userSlice.actions;
  * @param state // all states
  * @returns user details
  */
-export const getUserDetails = (state: any) => state?.user?.user;
+export const getUserDetails = (state: any) => state?.user;

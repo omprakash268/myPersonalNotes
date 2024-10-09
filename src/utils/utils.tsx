@@ -14,11 +14,10 @@ export const saveToLocalStorage = (userDetails: IUserCredentials) => {
 export const loadFromLocalStorage = () => {
   try {
     const serializedState = localStorage.getItem("user");
-    if (serializedState === null || serializedState === "undefined")
-      return undefined; // Return undefined to allow Redux to initialize with empty state
+    if (serializedState === null || serializedState === "null") return null; // Return undefined to allow Redux to initialize with empty state
     return JSON.parse(serializedState);
   } catch (e) {
     console.error("Could not load state from localStorage:", e);
-    return undefined;
+    return null;
   }
 };

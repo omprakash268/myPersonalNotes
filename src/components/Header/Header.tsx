@@ -18,8 +18,6 @@ export const Header = () => {
   const navigate = useNavigate();
   const userData = useSelector(getUserDetails);
 
-  console.log("header data",userData)
-
   const dispatch = useDispatch();
 
   const showDrawer = () => {

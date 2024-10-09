@@ -54,16 +54,17 @@ export const Header = () => {
     },
     {
       key: "2",
-      label: userData != undefined ? (
-        <div
-          onClick={handleLogout}
-          className="hover:cursor-pointer text-red-500"
-        >
-          Logout
-        </div>
-      ) : (
-        <Link to={"/login"}>Login</Link>
-      ),
+      label:
+        userData != undefined ? (
+          <div
+            onClick={handleLogout}
+            className="hover:cursor-pointer text-red-500"
+          >
+            Logout
+          </div>
+        ) : (
+          <Link to={"/login"}>Login</Link>
+        ),
     },
     !userData && {
       key: "3",
@@ -86,11 +87,14 @@ export const Header = () => {
           </div>
         </div>
         <div className="desktop-view">
-          Welcome
-          <span className="text-yellow-500 uppercase font-bold italic">
-            {" "}
-            {userData && userData?.name}
-          </span>
+          Welcome{" "}
+          {userData ? (
+            <span className="text-yellow-500 uppercase font-bold italic">
+              {userData && userData?.name}
+            </span>
+          ) : (
+            <span className="text-sky-500">Guest</span>
+          )}
         </div>
         <Dropdown menu={{ items }} placement="bottom" arrow>
           <FaUserCircle className="desktop-view text-3xl cursor-pointer" />
@@ -122,26 +126,31 @@ export const Header = () => {
               Created by : Om Prakash
             </div>
           </div>
-          <div className="my-8 font-bold">
-            Welcome
-            <span className="text-yellow-500 font-semibold uppercase">
-              {" "}
-              {userData && userData?.name}
-            </span>
+          <div className="mt-8 mb-4 font-bold">
+            Welcome{" "}
+            {userData ? (
+              <span className="text-yellow-500 uppercase font-bold italic">
+                {userData && userData?.name}
+              </span>
+            ) : (
+              <span className="text-sky-500">Guest</span>
+            )}
           </div>
           <div className="flex flex-col items-start justify-center gap-4">
             {userData ? (
               <div className="flex flex-col justify-center items-start gap-4">
+                <Link to={"/"} onClick={() => setOpen(false)}>
+                  Home
+                </Link>
+                <Link to={"/my-notes"} onClick={() => setOpen(false)}>
+                  View Notes
+                </Link>
                 <a
                   onClick={handleLogout}
                   className="hover:cursor-pointer text-red-500"
                 >
                   Logout
                 </a>
-                <Link to={"/my-notes"} onClick={() => setOpen(false)}>
-                  View Notes
-                </Link>
-                <Link to={"/"}>Home</Link>
               </div>
             ) : (
               <>

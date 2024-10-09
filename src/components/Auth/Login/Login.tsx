@@ -9,7 +9,7 @@ import { auth } from "../Firebase/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
 import { FidgetSpinner } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
-import { loginUserDetails, logoutUserDetails } from "../../../redux/actions/userAction";
+import { login, logout } from "../../../redux/slice/userSlice";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -41,8 +41,8 @@ export const Login = () => {
         email: "",
         password: "",
       });
-      localStorage.setItem("user", JSON.stringify(res?.data?.data));
-      dispatch(loginUserDetails(res?.data?.data));
+      // localStorage.setItem("user", JSON.stringify(res?.data?.data));
+      dispatch(login(res?.data?.data));
       setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
@@ -70,13 +70,13 @@ export const Login = () => {
       localStorage.setItem("user", JSON.stringify(userDetails));
 
       // save to redux store
-      dispatch(loginUserDetails(userDetails));
+      dispatch(login(userDetails));
 
       setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
       console.log(err);
-      dispatch(logoutUserDetails());
+      dispatch(logout());
       localStorage.removeItem("user");
       setIsLoading(false);
     }

@@ -1,7 +1,17 @@
-import { createStore } from "redux";
-import { userReducer } from "../reducers/userReducer";
-import { getUserStateFromLocalStorage } from "../../utils/utils";
+// import { saveToLocalStorage } from "../../utils/utils";
+import { configureStore } from "@reduxjs/toolkit";
+import { userSlice } from "../slice/userSlice";
+import { loadFromLocalStorage, saveToLocalStorage } from "../../utils/utils";
 
-const initialState = getUserStateFromLocalStorage();
+export const store = configureStore({
+  reducer: {
+    user: userSlice.reducer,
+  },
+  preloadedState: { user: { user: loadFromLocalStorage() } },
+});
 
-export const store = createStore(userReducer, initialState);
+// Subscribe to store updates and save the state to localStorage
+store.subscribe(() => {
+  console.log("change detected", store.getState().user.user);
+  saveToLocalStorage(store.getState().user.user);
+});

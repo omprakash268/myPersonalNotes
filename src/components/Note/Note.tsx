@@ -11,6 +11,7 @@ import { UpdateNote } from "../UpdateNote/UpdateNote";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { useSelector } from "react-redux";
+import { getUserDetails } from "../../redux/slice/userSlice";
 
 export const Note = () => {
   const [myNoteData, setMyNoteData] = useState<INoteDetails[]>([]);
@@ -38,7 +39,7 @@ export const Note = () => {
     createdAt: Date.now(),
   });
 
-  const userData: any = useSelector((state: any) => state);
+  const userData: any = useSelector(getUserDetails);
 
   const navigate = useNavigate();
 

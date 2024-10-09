@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import bgImg from "../../assets/images/bg-img.jpg";
 import "./Home.css";
 import { useSelector } from "react-redux";
+import { getUserDetails } from "../../redux/slice/userSlice";
 
 export const Home = () => {
   const [time, setTime] = useState(new Date());
 
-  const userData: any = useSelector((state: any) => state);
+  const userData: any = useSelector(getUserDetails);
 
   const formatTime = (date: Date) => {
     const hours = String(date.getHours()).padStart(2, "0");
@@ -67,7 +68,7 @@ export const Home = () => {
             <p className="text-xl font-bold ">
               <span className="text-yellow-500">Hi , </span>{" "}
               <span className="text-orange-500">
-                {userData && userData.name}
+                {userData && userData?.name}
               </span>
             </p>
             <Link

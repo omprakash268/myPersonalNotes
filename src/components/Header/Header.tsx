@@ -10,13 +10,16 @@ import { Dropdown } from "antd";
 import { signOut } from "firebase/auth";
 import { auth } from "../Auth/Firebase/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUserDetails } from "../../redux/actions/userAction";
+import { getUserDetails, logout } from "../../redux/slice/userSlice";
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const placement = "left";
   const navigate = useNavigate();
-  const userData = useSelector((state: any) => state);
+  const userData = useSelector(getUserDetails);
+
+  console.log("header data",userData)
+
   const dispatch = useDispatch();
 
   const showDrawer = () => {
@@ -37,8 +40,7 @@ export const Header = () => {
         console.log(error);
       });
 
-    localStorage.removeItem("user");
-    dispatch(logoutUserDetails());
+    dispatch(logout());
     setOpen(false);
     navigate("/");
   };
@@ -54,7 +56,7 @@ export const Header = () => {
     },
     {
       key: "2",
-      label: userData ? (
+      label: userData != undefined ? (
         <div
           onClick={handleLogout}
           className="hover:cursor-pointer text-red-500"

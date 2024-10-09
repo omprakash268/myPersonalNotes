@@ -7,9 +7,10 @@ import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
-import { FidgetSpinner } from "react-loader-spinner";
+import { Bars } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, login, logout } from "../../../redux/slice/userSlice";
+import "./Login.css";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -220,14 +221,15 @@ export const Login = () => {
         </section>
       </div>
       {isLoading ? (
-        <div className="absolute top-0 left-0 bg-black opacity-70 flex justify-center items-center h-screen w-screen">
-          <FidgetSpinner
-            visible={true}
+        <div className="absolute top-0 left-0 loader-bg-transparent flex justify-center items-center h-screen w-screen">
+          <Bars
             height="80"
             width="80"
-            ariaLabel="fidget-spinner-loading"
+            color="#000"
+            ariaLabel="bars-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper"
+            wrapperClass=""
+            visible={true}
           />
         </div>
       ) : (

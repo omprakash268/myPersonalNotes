@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "../../Header/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../env/env";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
+import { getUserDetails } from "../../../redux/slice/userSlice";
 
 export const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +25,10 @@ export const SignUp = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const navigate = useNavigate();
+
+  const userData = useSelector(getUserDetails);
 
   const baseUrl = BASE_URL;
 
@@ -91,6 +97,13 @@ export const SignUp = () => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    if (userData) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <>
       <div className="w-full min-h-screen flex flex-col justify-start items-center bg-gradient-to-r from-indigo-500 from-20% via-sky-600 via-100%">

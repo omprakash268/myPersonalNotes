@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router-dom";
 import { Header } from "../../Header/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../../../env/env";
 import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
 import { FidgetSpinner } from "react-loader-spinner";
-import { useDispatch } from "react-redux";
-import { loginUserDetails, logoutUserDetails } from "../../../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails, login, logout } from "../../../redux/slice/userSlice";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,9 +17,11 @@ export const Login = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const userData = useSelector(getUserDetails);
 
   const baseUrl = BASE_URL;
 
@@ -41,8 +43,8 @@ export const Login = () => {
         email: "",
         password: "",
       });
-      localStorage.setItem("user", JSON.stringify(res?.data?.data));
-      dispatch(loginUserDetails(res?.data?.data));
+      // localStorage.setItem("user", JSON.stringify(res?.data?.data));
+      dispatch(login(res?.data?.data));
       setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
@@ -70,13 +72,13 @@ export const Login = () => {
       localStorage.setItem("user", JSON.stringify(userDetails));
 
       // save to redux store
-      dispatch(loginUserDetails(userDetails));
+      dispatch(login(userDetails));
 
       setIsLoading(false);
       navigate("/my-notes");
     } catch (err) {
       console.log(err);
-      dispatch(logoutUserDetails());
+      dispatch(logout());
       localStorage.removeItem("user");
       setIsLoading(false);
     }
@@ -100,6 +102,12 @@ export const Login = () => {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (userData) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>

@@ -7,7 +7,13 @@ export interface INoteDetails {
   createdAt: number;
 }
 
-export interface IReduxAction {
-  type:string;
-  payload:any;
+// export interface IReduxAction {
+//   type:string;
+//   payload:any;
+// }
+
+export interface IUserCredentials {
+  name: string;
+  email: string;
+  _id: string;
 }

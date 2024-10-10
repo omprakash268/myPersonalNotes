@@ -5,16 +5,19 @@ import { NoteCard } from "../NoteCard/NoteCard";
 import { Select, Modal, Skeleton } from "antd";
 import axios from "axios";
 import "./Note.css";
-import { BASE_URL } from "../../env/env";
 import { PriorityTag } from "../PriorityTag/PriorityTag";
 import { UpdateNote } from "../UpdateNote/UpdateNote";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { useSelector } from "react-redux";
 import { getUserDetails } from "../../redux/slice/userSlice";
+import {
+  useAddNoteMutation,
+  useGetAllNotesQuery,
+} from "../../redux/slice/apiSlice";
+import { ThreeDots } from "react-loader-spinner";
 
 export const Note = () => {
-  const [myNoteData, setMyNoteData] = useState<INoteDetails[]>([]);
   const [notesFormData, setNotesFormData] = useState({
     title: "",
     description: "",
@@ -23,7 +26,6 @@ export const Note = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [isDataLoading, setIsDataLoading] = useState(false);
   const [modalData, setModalData] = useState({
     _id: "",
     title: "",
@@ -40,12 +42,12 @@ export const Note = () => {
   });
 
   const userData: any = useSelector(getUserDetails);
+  const { data, isLoading } = useGetAllNotesQuery(userData?._id);
+  const [addNewNoteFn, result] = useAddNoteMutation();
 
   const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
-
-  const baseUrl = BASE_URL;
 
   const showModal = (note: INoteDetails) => {
     setModalData(note);
@@ -84,38 +86,19 @@ export const Note = () => {
   const addNewNote = async (e: any) => {
     e.preventDefault();
     notesFormData.createdAt = Date.now();
-    await axios.post(`${baseUrl}/note/create/${userData._id}`, notesFormData);
+    addNewNoteFn({ userId: userData?._id, body: notesFormData });
     setNotesFormData({
       title: "",
       description: "",
       tag: "Low",
       createdAt: Date.now(),
     });
-    getAllNotes();
-  };
-
-  const getAllNotes = async () => {
-    if (!userData) {
-      navigate("/");
-    }
-    setIsDataLoading(true);
-    if (userData) {
-      const response = await axios.get(`${baseUrl}/note/all/${userData._id}`);
-
-      setMyNoteData(
-        response.data.data.sort((a: any, b: any) => {
-          const dateA: any = new Date(a.createdAt);
-          const dateB: any = new Date(b.createdAt);
-          return dateB - dateA;
-        })
-      );
-    }
-
-    setIsDataLoading(false);
   };
 
   useEffect(() => {
-    getAllNotes();
+    if (!userData) {
+      navigate("/");
+    }
   }, []);
 
   return (
@@ -163,17 +146,30 @@ export const Note = () => {
                     />
                   </div>
                   <button
-                    className="h-10 border-[1px] border-white rounded-lg hover:text-white disabled:cursor-not-allowed disabled:text-black"
+                    className="h-10 border-[1px] flex justify-center items-center border-white rounded-lg hover:text-white disabled:cursor-not-allowed disabled:text-black"
                     disabled={!isFormValid()}
                     type="submit"
                   >
-                    Add Note
+                    {result?.isLoading ? (
+                      <ThreeDots
+                        visible={true}
+                        height="30"
+                        width="30"
+                        color="#fff"
+                        radius="9"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    ) : (
+                      "Add Note "
+                    )}
                   </button>
                 </div>
               </div>
             </form>
           </div>
-          {isDataLoading ? (
+          {isLoading ? (
             <div className="w-full mt-12 responsive-layout-container">
               <Skeleton active className="bg-white p-8 rounded-lg" />
               <Skeleton active className="bg-white p-8 rounded-lg" />
@@ -181,13 +177,12 @@ export const Note = () => {
             </div>
           ) : (
             <div className="w-full mt-12 responsive-layout-container">
-              {myNoteData.map((data) => {
+              {data.map((data: any) => {
                 return (
                   <NoteCard
                     data={data}
                     key={data._id}
                     showModal={showModal}
-                    getAllNotes={getAllNotes}
                     showUpdateModal={showUpdateModal}
                   />
                 );
@@ -226,11 +221,7 @@ export const Note = () => {
             title={"Update Note"}
           >
             <div className="max-h-[35rem] mt-8 text-justify my-6 overflow-auto">
-              <UpdateNote
-                getAllNotes={getAllNotes}
-                data={updateModalData}
-                handleCancel={handleCancel}
-              />
+              <UpdateNote data={updateModalData} handleCancel={handleCancel} />
             </div>
           </Modal>
         </div>

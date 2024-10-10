@@ -2,16 +2,13 @@
 import { useEffect, useState } from "react";
 import { INoteDetails } from "../../misc/app.interface";
 import { Select } from "antd";
-import axios from "axios";
-import { BASE_URL } from "../../env/env";
+import { useUpdateNoteMutation } from "../../redux/slice/apiSlice";
 
 export const UpdateNote = ({
   data,
-  getAllNotes,
   handleCancel,
 }: {
   data: INoteDetails;
-  getAllNotes: any;
   handleCancel: any;
 }) => {
   const [notesFormData, setNotesFormData] = useState({
@@ -20,9 +17,7 @@ export const UpdateNote = ({
     tag: "Low",
   });
 
-  const baseUrl = BASE_URL;
-
-  axios.defaults.withCredentials = true;
+  const [updateNoteFn] = useUpdateNoteMutation();
 
   const priorityListItems = [
     { value: "Important", label: "Important" },
@@ -32,9 +27,8 @@ export const UpdateNote = ({
 
   const updateNote = async (e: any) => {
     e.preventDefault();
-    await axios.patch(`${baseUrl}/note/update/${data._id}`, notesFormData);
+    updateNoteFn({ userId: data?._id, body: notesFormData });
     handleCancel();
-    getAllNotes();
   };
 
   const isFormValid = () => {

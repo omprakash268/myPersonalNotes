@@ -4,28 +4,22 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaExpand } from "react-icons/fa6";
 import { INoteDetails } from "../../misc/app.interface";
 import { Tooltip } from "antd";
-import axios from "axios";
-import { BASE_URL } from "../../env/env";
 import { PriorityTag } from "../PriorityTag/PriorityTag";
+import { useDeleteNoteMutation } from "../../redux/slice/apiSlice";
 
 export const NoteCard = ({
   data,
   showModal,
-  getAllNotes,
   showUpdateModal,
 }: {
   data: INoteDetails;
   showModal: any;
-  getAllNotes: any;
   showUpdateModal: any;
 }) => {
-  const baseUrl = BASE_URL;
-  axios.defaults.withCredentials = true;
+  const [delteNoteFn] = useDeleteNoteMutation();
+
   const handleDelete = async (id: string) => {
-    const res = await axios.delete(`${baseUrl}/note/delete/${id}`);
-    if (res.status == 200) {
-      getAllNotes();
-    }
+    delteNoteFn(id);
   };
   return (
     <div className=" bg-white rounded-xl p-4 text-black flex flex-col items-center justify-start">

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// import { createStore } from "redux";
+
 // import { IReduxAction } from "../../misc/app.interface";
 
 // const initialState: any = undefined;
@@ -14,3 +16,6 @@
 //       return state;
 //   }
 // };
+
+// store
+// export const store = createStore(userReducer,intialState);

@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { getUserDetails } from "../../../redux/slice/userSlice";
 
-export const SignUp = () => {
+const SignUp = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -232,3 +232,5 @@ export const SignUp = () => {
     </>
   );
 };
+
+export default SignUp;

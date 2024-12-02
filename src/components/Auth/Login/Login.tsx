@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, login, logout } from "../../../redux/slice/userSlice";
 import "./Login.css";
 
-export const Login = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -238,3 +238,5 @@ export const Login = () => {
     </>
   );
 };
+
+export default Login;

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { IUserCredentials } from "../misc/app.interface";
 
 // Helper function to save state to localStorage
@@ -20,4 +21,15 @@ export const loadFromLocalStorage = () => {
     console.error("Could not load state from localStorage:", e);
     return null;
   }
+};
+
+// Lazy load component
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const LazyLoad = (pathFn: any) => {
+  const Component = lazy(pathFn);
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Component />
+    </Suspense>
+  );
 };

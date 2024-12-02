@@ -1,9 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Home } from "./components/Home/Home";
-import { Login } from "./components/Auth/Login/Login";
-import { SignUp } from "./components/Auth/SignUp/SignUp";
-import { PageNotFound } from "./components/PageNotFound/PageNotFound";
-import { Note } from "./components";
+import { LazyLoad } from "./utils/utils.tsx";
+import { PageNotFound } from "./components/PageNotFound/PageNotFound.tsx";
 
 const router = createBrowserRouter([
   {
@@ -12,15 +10,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    Component: Login,
+    element: LazyLoad(() => import("./components/Auth/Login/Login")),
   },
   {
     path: "/signup",
-    Component: SignUp,
+    element: LazyLoad(() => import("./components/Auth/SignUp/SignUp")),
   },
   {
     path: "/my-notes",
-    Component: Note,
+    element: LazyLoad(() => import("./components/Note/Note")),
+  },
+  {
+    path: "/resume",
+    element: LazyLoad(() => import("./components/Resume/Resume")),
   },
   {
     path: "*",

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { lazy, Suspense } from "react";
 import { Header } from "../Header/Header";
 import { Link } from "react-router-dom";
 import bgImg from "../../assets/images/bg-img.jpg";
@@ -7,17 +7,10 @@ import "./Home.css";
 import { useSelector } from "react-redux";
 import { getUserDetails } from "../../redux/slice/userSlice";
 
+const Timer = lazy(() => import("./LiveTimer/LiveTimer"));
+
 export const Home = () => {
-  const [time, setTime] = useState(new Date());
-
   const userData: any = useSelector(getUserDetails);
-
-  const formatTime = (date: Date) => {
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    return `${hours}:${minutes}:${seconds}`;
-  };
 
   const divStyle = {
     backgroundSize: "cover",
@@ -28,16 +21,6 @@ export const Home = () => {
 
   const backgroundImageStyle = { backgroundImage: `url(${bgImg})` };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-
-    return () => {
-      // Cleanup interval on component unmount
-      clearInterval(intervalId);
-    };
-  }, []);
   return (
     <>
       <div
@@ -80,9 +63,9 @@ export const Home = () => {
           </div>
         )}
 
-        <div className="mt-4 w-[auto] timer-transparent p-2 sm:p-4 flex justify-center items-center text-[3rem] sm:text-[5rem]  time-gradiant h-5rem sm:h-[7rem]">
-          {formatTime(time)}
-        </div>
+        <Suspense fallback={<span className="text-white">Loading Timer...</span>}>
+          <Timer />
+        </Suspense>
       </div>
     </>
   );

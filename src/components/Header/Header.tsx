@@ -48,12 +48,16 @@ export const Header = () => {
       key: "0",
       label: <Link to={"/"}>Home</Link>,
     },
-    userData && {
+    {
       key: "1",
+      label: <Link to={"/resume"}>Resume</Link>,
+    },
+    userData && {
+      key: "2",
       label: <Link to={"/my-notes"}>View Notes</Link>,
     },
     {
-      key: "2",
+      key: "3",
       label:
         userData != undefined ? (
           <div
@@ -67,7 +71,7 @@ export const Header = () => {
         ),
     },
     !userData && {
-      key: "3",
+      key: "4",
       label: <Link to={"/signup"}>Sign Up</Link>,
     },
   ].filter(Boolean);

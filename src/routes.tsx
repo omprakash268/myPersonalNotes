@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { LazyLoad } from "./utils/utils.tsx";
 import { PageNotFound } from "./components/PageNotFound/PageNotFound.tsx";
+import { Note } from "./components/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/my-notes",
-    element: LazyLoad(() => import("./components/Note/Note")),
+    Component:Note
   },
   {
     path: "/resume",
